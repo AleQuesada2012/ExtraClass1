@@ -47,7 +47,9 @@ public class Client {
         String Message = "";
 
         //while condition to mantain connection until predetermined keyword is received by the server
-        while ((!Message.equals("Over") || (!Message.equals("Out")))) {
+
+        //this logical conditions were corrected with help from a StackOverflow entry on "while not or similars"
+        while (!(Message.equals("Over") || Message.equals("Out"))) {
             try {
                 Message = input.readLine();
                 output.writeUTF(Message); //this method is used as the codification used by both parties follows the UTF standard.
@@ -66,8 +68,7 @@ public class Client {
         }
     }
     public static void main(String[] args){
-        Client Client1 = new Client("127.0.0.1", 128); //IPadd set to a value predetermined by the teacher in task specifications.
-
+        Client client = new Client("127.0.0.1", 128); //IPadd set to a value predetermined by the teacher in task specifications.
     }
 }
 //finished programming for one client, preparing Server code for further console test before implementing Threads and JavaFX GUI.
