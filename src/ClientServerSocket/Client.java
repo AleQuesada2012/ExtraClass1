@@ -68,7 +68,7 @@ public class Client {
         }
     }
     public static void main(String[] args){
-        Client client = new Client("127.0.0.1", 128); //IPadd set to a value predetermined by the teacher in task specifications.
+        Client client = new Client("127.0.0.1", 5000); //IPadd set to a value predetermined by the teacher in task specifications.
     }
 }
 //finished programming for one client, preparing Server code for further console test before implementing Threads and JavaFX GUI.
