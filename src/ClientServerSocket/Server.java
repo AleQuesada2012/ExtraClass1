@@ -6,7 +6,7 @@ Algorithms and Data Structures I
 Student: Alejandro Jose Quesada Calderon
 Teacher: Diego Noguera Mena
 Assignment: ExtraClass1
-* Code based on geeks for geeks article tutorial for monoclient connection *add link*
+* Code based on geeks for geeks article tutorial for monoclient connection <https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/>
 *********************************
  */
 package ClientServerSocket;
