@@ -29,10 +29,17 @@ public class ClientHandler extends Thread { //inheritance
                 //handle what to do with every received text that is not the exit command for the server.
 
 
+            }catch(Exception e){
+                e.printStackTrace();
             }
-        }s.close();
-        dis.close();
-        dos.close();
-        //handle exceptions for IOException
+
+        }try{
+            s.close();
+            dis.close();
+            dos.close();
+        }catch(IOException Ioexcpt){
+            System.out.println(Ioexcpt);
+        }
+
     }
 }
