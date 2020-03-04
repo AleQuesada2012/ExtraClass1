@@ -12,7 +12,8 @@ Assignment: ExtraClass1
  */
 package ClientServerSocket;
 import java.net.*; //imported the package of java Networking API
- import java.io.*;  //imported package for input/output
+import java.io.*;  //imported package for input/output
+import javax.swing.*; //GUI
 
 public class Client {
     //attributes for this class that consist of the communication channels (socket, data streams) are initialized
@@ -23,6 +24,10 @@ public class Client {
     //the last three attributes have not been assigned with any value so far
 
     //constructor with the arguments containing IP address and port for communication establishment
+    //Override notation to show how this constructor is an application of override.
+    //the Socket class has its own override of constructors, which means several constructors with the same name but
+    //different types or number of arguments. One constructor has no arguments, another one, implemented in this case
+    // uses a direction and a port number.
     public Client(String IPadd, int PortNumber) {
 
         //try-catch used to attempt a connection without stopping the code in runtime if connection is not established.
@@ -37,12 +42,12 @@ public class Client {
             //method used is different from input due to the direction information is headed
             output = new DataOutputStream(socket1.getOutputStream());
 
-        } catch (UnknownHostException Unknown) {
+        } catch (UnknownHostException uh) {
             //this code segment runs in case if the connection does not succeed, but it stops the code from stopping
-            System.out.println(Unknown);
+            System.out.println(uh);
             //different types of Exception subclasses used to specify the detection of a problem and excecute another section of code instead of a general Exception.
-        } catch (IOException Ioexcpt) {
-            System.out.println(Ioexcpt);
+        } catch (IOException ioe) {
+            System.out.println(ioe);
         }
         //String used to store the messages read from the user
         String Message = "";
@@ -56,8 +61,8 @@ public class Client {
                 //deprecated method readLine() as investigated, will be removed from the modern usage of the language.
                 //this deprecation means the used method should not be integrated to the software, as in time it will turn obsolete.
                 output.writeUTF(Message); //this method is used as the codification used by both parties follows the UTF standard.
-            } catch (IOException Ioexcpt) {
-                System.out.println(Ioexcpt);
+            } catch (IOException ioe) {
+                System.out.println(ioe);
             }
 
         }
@@ -66,8 +71,8 @@ public class Client {
             output.close();
             socket1.close();
 
-        } catch (IOException Ioexcpt) {
-            System.out.println(Ioexcpt);
+        } catch (IOException ioe) {
+            System.out.println(ioe);
         }
     }
     public static void main(String[] args){
