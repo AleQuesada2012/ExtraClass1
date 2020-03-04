@@ -21,7 +21,7 @@ public class Server {
 
     //declaration of constructor with PortNumber as the argument
     public Server(int PortNumber) {
-        try { //to stablish a connection
+        try { //to establish a connection
             server = new ServerSocket(PortNumber);
             System.out.println("Server initialized");
             System.out.println("Waiting for client...");
