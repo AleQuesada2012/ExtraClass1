@@ -6,7 +6,8 @@ Algorithms and Data Structures I
 Student: Alejandro Jose Quesada Calderon
 Teacher: Diego Noguera Mena
 Assignment: ExtraClass1
-* Code based on geeks for geeks article tutorial for monoclient connection *add link*
+* Code based on geeks for geeks article tutorial for monoclient connection <https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/>
+* this example is the basic connection practice that works as the extraclass starter practices.
 *********************************
  */
 package ClientServerSocket;
@@ -52,6 +53,8 @@ public class Client {
         while (!(Message.equals("Over") || Message.equals("Out"))) {
             try {
                 Message = input.readLine();
+                //deprecated method readLine() as investigated, will be removed from the modern usage of the language.
+                //this deprecation means the used method should not be integrated to the software, as in time it will turn obsolete.
                 output.writeUTF(Message); //this method is used as the codification used by both parties follows the UTF standard.
             } catch (IOException Ioexcpt) {
                 System.out.println(Ioexcpt);
