@@ -1,3 +1,16 @@
+/*
+ *********************************
+ *Costa Rican Insitute of Technology
+ *School of Computer Engineering
+ *Algorithms and Data Structures I
+ *Student: Alejandro Jose Quesada Calderon
+ *Teacher: Diego Noguera Mena
+ *Assignment: ExtraClass1
+ * Code based on geeks for geeks article tutorial for monoclient connection
+ * <https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/>
+ * code modified, now based on the article https://www.geeksforgeeks.org/multi-threaded-chat-application-set-1/.
+ *********************************
+ */
 package ClientServerSocket;
 
 import java.io.DataInputStream;
@@ -7,8 +20,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class ClientHandler implements Runnable
-{
+public class ClientHandler implements Runnable {
+    //these parameters are the abstraction used to represent a client sorter through the class attributes.
     Scanner scn = new Scanner(System.in);
     private String name;
     final DataInputStream dis;
@@ -17,6 +30,14 @@ public class ClientHandler implements Runnable
     boolean isloggedin;
 
     // constructor
+    /**
+     *
+     * @param s works as the communicating socket or the Client
+     * @param name is the assigned ID for each client connected to the server
+     * @param dis the data input stream for each client connecting
+     * @param dos the data output stream for each client connecting
+     */
+    //this constructor is a method
     public ClientHandler(Socket s, String name,
                          DataInputStream dis, DataOutputStream dos) {
         this.dis = dis;
@@ -41,8 +62,12 @@ public class ClientHandler implements Runnable
 
                 if(received.equals("logout")){
                     this.isloggedin=false;
+                    this.dis.close();
+                    this.dos.close();
                     this.s.close();
-                    break;
+                    //closing resources
+
+                    return;
                 }
 
                 // break the string into message and recipient part
@@ -67,15 +92,6 @@ public class ClientHandler implements Runnable
                 e.printStackTrace();
             }
 
-        }
-        try
-        {
-            // closing resources
-            this.dis.close();
-            this.dos.close();
-
-        }catch(IOException e){
-            e.printStackTrace();
         }
     }
 }

@@ -8,6 +8,7 @@
 *Assignment: ExtraClass1
 * Code based on geeks for geeks article tutorial for monoclient connection
 * <https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/>
+* code modified, now based on the article https://www.geeksforgeeks.org/multi-threaded-chat-application-set-1/.
 *********************************
  */
 package ClientServerSocket;
@@ -28,6 +29,11 @@ public class Server {
     // counter for clients
     static int i = 0;
 
+    /**
+     *
+     * @param args
+     * @throws IOException can fail if client does not close the data streams properly
+     */
     public static void main(String[] args) throws IOException
     {
         // server is listening on port 1234

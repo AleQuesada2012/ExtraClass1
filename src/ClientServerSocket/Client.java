@@ -7,7 +7,7 @@ Student: Alejandro Jose Quesada Calderon
 Teacher: Diego Noguera Mena
 Assignment: ExtraClass1
 * Code based on geeks for geeks article tutorial for monoclient connection <https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/>
-* this example is the basic connection practice that works as the extraclass starter practices.
+* Code modified, now based on the article <https://www.geeksforgeeks.org/multi-threaded-chat-application-set-2/>.
 *********************************
  */
 package ClientServerSocket;
@@ -18,11 +18,17 @@ package ClientServerSocket;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
-
+//keyword class represents the concept Class from OOP
+//public is a keyword related to encapsulation, as well as private and protected.
 public class Client
 {
     final static int ServerPort = 1234;
 
+    /**
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String args[]) throws IOException {
         Scanner scn = new Scanner(System.in);
 
@@ -49,7 +55,8 @@ public class Client
                         // write on the output stream
                         dos.writeUTF(msg);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        return;
+                        //e.printStackTrace();
                     }
                 }
             }
@@ -67,8 +74,8 @@ public class Client
                         String msg = dis.readUTF();
                         System.out.println(msg);
                     } catch (IOException e) {
-
-                        e.printStackTrace();
+                        return;
+                        //e.printStackTrace();
                     }
                 }
             }
