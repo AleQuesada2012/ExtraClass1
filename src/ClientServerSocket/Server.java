@@ -1,12 +1,13 @@
 /*
 *********************************
-Costa Rican Insitute of Technology
-School of Computer Engineering
-Algorithms and Data Structures I
-Student: Alejandro Jose Quesada Calderon
-Teacher: Diego Noguera Mena
-Assignment: ExtraClass1
-* Code based on geeks for geeks article tutorial for monoclient connection <https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/>
+*Costa Rican Insitute of Technology
+*School of Computer Engineering
+*Algorithms and Data Structures I
+*Student: Alejandro Jose Quesada Calderon
+*Teacher: Diego Noguera Mena
+*Assignment: ExtraClass1
+* Code based on geeks for geeks article tutorial for monoclient connection
+* <https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/>
 *********************************
  */
 package ClientServerSocket;
@@ -22,31 +23,34 @@ public class Server {
     //declaration of constructor with PortNumber as the argument
     public Server(int PortNumber) {
         try { //to establish a connection
-            server = new ServerSocket(PortNumber);
-            System.out.println("Server initialized");
-            System.out.println("Waiting for client...");
-            socket = server.accept();
-            System.out.println("Client Accepted");
+            while(true){
+                server = new ServerSocket(PortNumber);
+                System.out.println("Server initialized");
+                System.out.println("Waiting for client...");
+                socket = server.accept();
+                System.out.println("Client Accepted");
 
-            //store input in a string from the client socket
-            input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            String Message = "";
-            //read message until "Over" or "Out" are sent.
+                //store input in a string from the client socket
+                input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                String Message = "";
+                //read message until "Over" or "Out" are sent by client.
 
-            //this logical conditions were corrected with help from a StackOverflow entry on "while not or similars"
-            while (!(Message.equals("Over") || Message.equals("Out"))) {
-                try {
-                    Message = input.readUTF();
-                    System.out.println(Message);
+                //this logical conditions were corrected with help from a StackOverflow entry on "while not or similars"
+                while (!(Message.equals("Over") || Message.equals("Out"))) {
+                    try {
+                        Message = input.readUTF();
+                        System.out.println(Message);
 
-                } catch (IOException Ioexcpt) {
-                    System.out.println(Ioexcpt);
+                    }catch (IOException Ioexcpt) {
+                        System.out.println(Ioexcpt);
 
-                }
-            }//here the keywords should have been received so the program stops the connection with the client socket.
-            System.out.println("Connection terminated");
-            socket.close();
-            input.close();
+                    }
+                }//here the keywords should have been received so the program stops the connection with the client socket.
+                System.out.println("Connection terminated");
+                return;
+                //socket.close();
+                //input.close();
+            }
         } catch (IOException Ioexcpt) {
             System.out.println(Ioexcpt);
         }
