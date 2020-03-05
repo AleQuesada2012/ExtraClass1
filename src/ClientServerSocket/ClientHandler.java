@@ -1,4 +1,4 @@
-/*
+/**
  *********************************
  *Costa Rican Insitute of Technology
  *School of Computer Engineering
@@ -29,8 +29,9 @@ public class ClientHandler implements Runnable {
     Socket s;
     boolean isloggedin;
 
-    // constructor
+
     /**
+     * Invoked when the thread is called to accept the client request
      *
      * @param s works as the communicating socket or the Client
      * @param name is the assigned ID for each client connected to the server

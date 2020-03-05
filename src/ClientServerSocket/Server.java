@@ -1,4 +1,4 @@
-/*
+/**
 *********************************
 *Costa Rican Insitute of Technology
 *School of Computer Engineering
@@ -12,21 +12,18 @@
 *********************************
  */
 package ClientServerSocket;
-// Java implementation of  Server side
-// It contains two classes : Server and ClientHandler
-// Save file as Server.java
 
 import java.io.*;
 import java.util.*;
 import java.net.*;
 
-// Server class
+
 public class Server {
 
-    // Vector to store active clients
+
     static Vector<ClientHandler> ar = new Vector<>();
 
-    // counter for clients
+
     static int i = 0;
 
     /**
