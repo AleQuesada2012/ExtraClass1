@@ -11,72 +11,71 @@ Assignment: ExtraClass1
 *********************************
  */
 package ClientServerSocket;
-import java.net.*; //imported the package of java Networking API
-import java.io.*;  //imported package for input/output
-import javax.swing.*; //GUI
 
-public class Client {
-    //attributes for this class that consist of the communication channels (socket, data streams) are initialized
-    private Socket socket1 = null;
-    private DataInputStream input = null;
-    private DataOutputStream output = null;
+// Java implementation for multithreaded chat client
+// Save file as Client.java
 
-    //the last three attributes have not been assigned with any value so far
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
 
-    //constructor with the arguments containing IP address and port for communication establishment
-    //Override notation to show how this constructor is an application of override.
-    //the Socket class has its own override of constructors, which means several constructors with the same name but
-    //different types or number of arguments. One constructor has no arguments, another one, implemented in this case
-    // uses a direction and a port number.
-    public Client(String IPadd, int PortNumber) {
+public class Client
+{
+    final static int ServerPort = 1234;
 
-        //try-catch used to attempt a connection without stopping the code in runtime if connection is not established.
-        try {
-            socket1 = new Socket(IPadd, PortNumber);
-            System.out.println("Client connected");
+    public static void main(String args[]) throws IOException {
+        Scanner scn = new Scanner(System.in);
 
-            //user input
-            input = new DataInputStream(System.in);
+        // getting localhost ip
+        InetAddress ip = InetAddress.getByName("localhost");
 
-            //sending the output to the socket
-            //method used is different from input due to the direction information is headed
-            output = new DataOutputStream(socket1.getOutputStream());
+        // establish the connection
+        Socket s = new Socket(ip, ServerPort);
 
-        } catch (UnknownHostException uh) {
-            //this code segment runs in case if the connection does not succeed, but it stops the code from stopping
-            System.out.println(uh);
-            //different types of Exception subclasses used to specify the detection of a problem and excecute another section of code instead of a general Exception.
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        }
-        //String used to store the messages read from the user
-        String Message = "";
+        // obtaining input and out streams
+        DataInputStream dis = new DataInputStream(s.getInputStream());
+        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 
-        //while condition to mantain connection until predetermined keyword is received by the server
+        // sendMessage thread
+        Thread sendMessage = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
 
-        //this logical conditions were corrected with help from a StackOverflow entry on "while not or similars"
-        while (!(Message.equals("Over") || Message.equals("Out"))) {
-            try {
-                Message = input.readLine();
-                //deprecated method readLine() as investigated, will be removed from the modern usage of the language.
-                //this deprecation means the used method should not be integrated to the software, as in time it will turn obsolete.
-                output.writeUTF(Message); //this method is used as the codification used by both parties follows the UTF standard.
-            } catch (IOException ioe) {
-                System.out.println(ioe);
+                    // read the message to deliver.
+                    String msg = scn.nextLine();
+
+                    try {
+                        // write on the output stream
+                        dos.writeUTF(msg);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+        });
 
-        }
-        try {
-            input.close();
-            output.close();
-            socket1.close();
+        // readMessage thread
+        Thread readMessage = new Thread(new Runnable()
+        {
+            @Override
+            public void run() {
 
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        }
-    }
-    public static void main(String[] args){
-        Client client = new Client("127.0.0.1", 5000); //IPadd set to a value predetermined by the teacher in task specifications.
+                while (true) {
+                    try {
+                        // read the message sent to this client
+                        String msg = dis.readUTF();
+                        System.out.println(msg);
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        sendMessage.start();
+        readMessage.start();
+
     }
 }
-//finished programming for one client, preparing Server code for further console test before implementing Threads and JavaFX GUI.

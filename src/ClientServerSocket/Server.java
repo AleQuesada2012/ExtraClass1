@@ -11,51 +11,64 @@
 *********************************
  */
 package ClientServerSocket;
-import java.net.*;
+// Java implementation of  Server side
+// It contains two classes : Server and ClientHandler
+// Save file as Server.java
+
 import java.io.*;
+import java.util.*;
+import java.net.*;
 
+// Server class
 public class Server {
-    //declare attributes for the Server
-    private Socket socket = null;
-    private DataInputStream input = null;
-    private ServerSocket server = null;
 
-    //declaration of constructor with PortNumber as the argument
-    public Server(int PortNumber) {
-        try { //to establish a connection
-            while(true){
-                server = new ServerSocket(PortNumber);
-                System.out.println("Server initialized");
-                System.out.println("Waiting for client...");
-                socket = server.accept();
-                System.out.println("Client Accepted");
+    // Vector to store active clients
+    static Vector<ClientHandler> ar = new Vector<>();
 
-                //store input in a string from the client socket
-                input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-                String Message = "";
-                //read message until "Over" or "Out" are sent by client.
+    // counter for clients
+    static int i = 0;
 
-                //this logical conditions were corrected with help from a StackOverflow entry on "while not or similars"
-                while (!(Message.equals("Over") || Message.equals("Out"))) {
-                    try {
-                        Message = input.readUTF();
-                        System.out.println(Message);
+    public static void main(String[] args) throws IOException
+    {
+        // server is listening on port 1234
+        ServerSocket ss = new ServerSocket(1234);
 
-                    }catch (IOException Ioexcpt) {
-                        System.out.println(Ioexcpt);
+        Socket s;
 
-                    }
-                }//here the keywords should have been received so the program stops the connection with the client socket.
-                System.out.println("Connection terminated");
-                return;
-                //socket.close();
-                //input.close();
-            }
-        } catch (IOException Ioexcpt) {
-            System.out.println(Ioexcpt);
+        // running infinite loop for getting
+        // client request
+        while (true)
+        {
+            // Accept the incoming request
+            s = ss.accept();
+
+            System.out.println("New client request received : " + s);
+
+            // obtain input and output streams
+            DataInputStream dis = new DataInputStream(s.getInputStream());
+            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+
+            System.out.println("Creating a new handler for this client...");
+
+            // Create a new handler object for handling this request.
+            ClientHandler mtch = new ClientHandler(s,"client " + i, dis, dos);
+
+            // Create a new Thread with this object.
+            Thread t = new Thread(mtch);
+
+            System.out.println("Adding this client to active client list");
+
+            // add this client to active clients list
+            ar.add(mtch);
+
+            // start the thread.
+            t.start();
+
+            // increment i for new client.
+            // i is used for naming only, and can be replaced
+            // by any naming scheme
+            i++;
+
         }
-    }
-    public static void main(String[] args){
-        Server server = new Server(5000);
     }
 }
